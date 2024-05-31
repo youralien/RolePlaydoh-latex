@@ -119,39 +119,31 @@ We introduce a generalizable human-LLM collaboration pipeline that refines an LL
 \section{Introduction}
 \if 0
 % BAD ATTEMPTS AT REWORKING THE 1st paragraph, trying to submit to reviewers "over specific" comments at the harm of not telling the counseling story accurately
-- NLP technologies are meant to make a difference in mental health, one area is in the training of counselors
-- Traditional non tech techniques.
-- But with technology..
+% - NLP technologies are meant to make a difference in mental health, one area is in the training of counselors
+% - Traditional non tech techniques.
+% - But with technology..
 
-Realistic practice and personalized feedback are key integredients for novices to effectively learning clinical skills
-Traditionally, counselors can practice their counseling skills on a partner who roleplays the patient. However, partners may not be available when a novice counselor wants to practice.
+% Realistic practice and personalized feedback are key integredients for novices to effectively learning clinical skills
+% Traditionally, counselors can practice their counseling skills on a partner who roleplays the patient. However, partners may not be available when a novice counselor wants to practice.
 % Others have proposed to design authentic yet low-risk mock practices to help novice counselors practice and develop their conversational skills~\cite{}
-% Learning to Become a Volunteer Counselor: Lessons from a Peer-to-Peer Mental Health Community
-Training software that simulates a dialogue with a digital partners can also offer interactive practice opportunities. However, most digital partners operate using tailored, dialogue trees~\cite{othlinghaus2020seriousroleplaying}, which limits the diversity of dialogue scenarios that can be practiced. 
-With the arrival of LLMs that can generate more varied and coherent dialogues than hard-coded or retrieval-based methods, recent work has recognized the transformative potential for LLMs to power AI partners that can be used for practicing many types of social skills~\citep{yang2024social}. We focus on counselor training, where novices could roleplay with an AI patient seeking mental health support as preparation for learning to give effective support to real patients.  
+% cite: Learning to Become a Volunteer Counselor: Lessons from a Peer-to-Peer Mental Health Community
+% Training software that simulates a dialogue with a digital partners can also offer interactive practice opportunities. However, most digital partners operate using tailored, dialogue trees~\cite{othlinghaus2020seriousroleplaying}, which limits the diversity of dialogue scenarios that can be practiced. 
+% With the arrival of LLMs that can generate more varied and coherent dialogues than hard-coded or retrieval-based methods, recent work has recognized the transformative potential for LLMs to power AI partners that can be used for practicing many types of social skills~\citep{yang2024social}. We focus on counselor training, where novices could roleplay with an AI patient seeking mental health support as preparation for learning to give effective support to real patients.  
 \fi
 
 Realistic practice and personalized feedback is key for novice counselors to effectively learn clinical skills~\cite{nurse2024influence}. Simulation-based education methods, such as roleplay with peers or Standardized Patients~\cite{gliva2020comprehensive} and simulations with digital patients, can offer interactive practice opportunities that complement theoretical knowledge~\cite{kuhne2020standardized}.   However, each method has its limitations: practicing with peers is only viable if peers are experienced with roleplays; Standardized Patients are used mostly for evaluation rather than practice due to the cost and limited availability of trained, human actors; and most digital patients operate using tailored, dialogue trees~\cite{othlinghaus2020seriousroleplaying}, which limits the diversity of dialogue scenarios that can be practiced. Without appropriate practice opportunities, counselors may be underprepared or lack confidence for giving effective counseling support to real patients. Therefore, innovating beyond traditional methods by developing versatile, AI-powered simulation tools has the potential to revolutionize the training landscape for counselors, making practice opportunities more varied and readily available~\citep{yang2024social}.
-
-% AI-based patient simulations can be helpful to new therapists, but only when these patients are designed with a degree of complexity. If their behaviors do not reflect those seen in actual clients and if they make practice sessions too easy for the novice counsellor then it is less likely that he or she will learn from them effectively.
 
 Recent studies have explored the use of large language models (LLMs) to create AI patients 
 ~\citep{tanana2019development, demasi-etal-2020-multi, chen2023llmempowered}. While past methods fine-tuned models to clone multiple persona~\cite{demasi-etal-2020-multi}, this approach cannot create custom personas without a dataset and therefore is limited when data is difficult to obtain due to privacy concerns. More recent techniques involve directly prompting LLMs to emulate a patient persona~\cite{chiu2024computational, tu2024conversational}. 
 However, these simulations, when evaluated by experienced counselors, often fail to resemble typical behaviors of real-patients such as using colloquial language and showing resistance to help~\cite{chen2023llmempowered}. 
 Such AI patients are less useful roleplay partners for novice counselors if they make practice experiences artifically easy by not faithfully simulating the behaviors that are encountered in challenging, real-world counseling sessions. 
-% Original Option: Keep it simple
 Thus, incorporating expert counselor feedback is essential for enhancing the realism of these simulations.
-% Option 1: Need for customization
-% Thus, such AI patient simulations need to be customized and validated via feedback from expert counselors whom are familiar with real-patient behaviors. 
 Popular methods for customizing models with human feedback involve collecting sparse binary or preference feedback for model re-training~\cite{christiano2017deep, rafailov2024direct} but can be tedious and time-consuming especially for domain-experts.
-% Option 1: Original concise version
-% In the mental health setting, there is a need for more efficient methods that allow expert counselors to provide more dense, free-form feedback to refine simulations to better mimic realistic patient behavior. 
-% Option 2: Trying to generalize a bit, opportunity "freely contribute"
 In settings like mental health where expert feedback is costly, there is a need for more efficient methods that allow expert counselors to provide more dense, free-form feedback to refine AI simulations to better mimic realistic patient behavior. 
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/rpdteaser.pdf}
+    \includegraphics[width=0.9\textwidth]{figures/rpd-principle-elicitation}
     \caption{Roleplay-doh empowers a counseling expert to create a customized AI patient intended for other novice counselors to use as a practice partner. During a chat, a counselor provides qualitative feedback as a kudos, critique, or rewrite which is converted by an LLM into a principle that is added to the constitution that governs the AI patient roleplay, known as the \textbf{principle elicitation} process~\cite{petridis2023constitutionmaker}. When generating responses, the AI patient self-critiques and revises its response for reliable \textbf{principle adherence}.}
     \label{fig:rpdteaser}
 \end{figure*}
@@ -162,7 +154,7 @@ Since counselors may not know how to prompt LLMs to simulate desired personas an
 our pipeline adopts a recent paradigm for user-driven chatbot design~\cite{petridis2023constitutionmaker} that allows users to customize LLM chatbots by interactively critiquing model responses via qualitative feedback. Through get converted into constitutional \textit{principles}~\cite{bai2022constitutional}. 
 We instantiate our human-LLM collaboration pipeline in \textbf{Roleplay-doh}
 % , a tool that allows counselor experts to mold the behavior of a customized, LLM-powered AI patient
-; see Figure~\ref{fig:rpdteaser}. With Roleplay-doh, a counselor creates an AI patient scenario by describing a past challenging case and interactively customizes the roleplay behaviors by providing free-form feedback on dialogue responses while interacting. An LLM module helps to convert expert feedback into a well-specified principle, which can be thought of as a rule that the AI patient should follow, \textit{i.e., "Respond to encouraging words with hesitation, doubting their significance.} Then, the LLM-simulation generates the patient's future responses according to a constitution consisting of these expert-defined principles. 
+; see Figure~\ref{fig:rpdteaser}. With Roleplay-doh, a counselor creates an AI patient scenario by describing a past challenging case and interactively customizes the roleplay behaviors by providing free-form feedback on dialogue responses while interacting. An LLM module helps to convert expert feedback into a well-specified principle, which can be thought of as a rule that the AI patient should follow, \textit{i.e., "Respond to encouraging words with hesitation, doubting their significance".} Then, the LLM-simulation generates the patient's future responses according to a constitution consisting of these expert-defined principles. 
 
 However, our preliminary analyses show that directly prompting a GPT-4 simulated patient to follow expert-defined principles results in poor responses in 20\% of cases, due to errors in adhering to \textit{all} principles, \textit{only in applicable situations}, and \textit{without violating persona or dialogue consistency}. To mitigate these errors, we develop a module for \textbf{principle-adherance} within the dialogue-simulation pipeline which \textit{critiques} a candidate response for principle-adherence and \textit{revises} the response according to the critique. While similar to recent methods for self-refining LLM outputs~\cite{madaan2023selfrefine}, our principle-adherence module is specifically designed to (1) decompose multipart and conditional principles into a set of yes/no principles that are easier to judge and (2) assess relevancy of principles to dialogue context; see Figure~\ref{fig:agent-critique-improve}. 
 
@@ -181,16 +173,16 @@ Previous work has proposed methods to simulate diverse personas and scenarios, b
 \paragraph{Aligning Simulation with Domain Experts}
 Feedback from domain experts is crucial to evaluating and improving the realism of LLM simulations. Recent approaches for aligning to human feedback, like ~\citet{christiano2017deep} or ~\citet{rafailov2024direct} depend on large amounts of preference data which requires lots of expert time to collect. A more efficient approach is through alignment to qualitative or natural language feedback \cite{shi2022life}. 
 We build on a recent paradigm for user-driven chatbot design~\cite{petridis2023constitutionmaker} that elicits qualitative feedback on responses which gets converted into constitutional \textit{principles}~\cite{bai2022constitutional}, which are encoded in a prompt to support shaping chatbot responses without retraining. In our work, we adopt this paradigm to support counseling experts to create AI patients, and extend it with a novel principle-adherence module.
-In the mental health area, researchers have begun using human-centered design approaches to involve therapy experts when prompting LLMs for simulation~\cite{chen2023llmempowered, lin2024imbue}. In this way, qualitative feedback from experts is captured through testing sessions, which informs how designers engineer LLM prompts. However, requiring a researcher-in-the-loop to refine prompts hinders the speed of iterative design, which we aim to eliminate through our work.  % upon a customized LLM-simulation. 
+In the mental health area, researchers have begun using human-centered design approaches to involve therapy experts when prompting LLMs for simulation~\cite{chen2023llmempowered, lin2024imbue}. In this way, qualitative feedback is gathered during testing sessions with experts, which informs how a researcher engineers the LLM prompts. However, requiring a researcher-in-the-loop to refine prompts hinders the speed of iterative design, which we aim to eliminate through our work.  % upon a customized LLM-simulation. 
 % In our work, we use a principle elicitation approach to rapidly incorporate a domain experts feedback into customized LLM-simulations.
 
 \paragraph{Text Generation with LLMs}
-Generating dialogue responses that adhere to user-defined principles is a type of constrained text generation problem. Recent work has shown that constrained text generation poses challenges when directly prompting GPT-4~\cite{madaan2023selfrefine, bubeck2023sparks, yao2023collie}. To improve outputs, \citet{yao2023collie} propose a general method for using the same LLM to refine its own outputs; they evaluate their self-refine method on a constrained dialogue response generation task where responses are constrained by a general set of criteria such as relevance, consistency, informativeness, and helpfulness. A difference in our setting is responses are constrained by user-defined principles that are multi-faceted and do not apply in all dialogue contexts. This necessitates new modules that generate implicit principles and breakdown criteria to make them easier to evaluate. 
+Generating dialogue responses that adhere to user-defined principles is a type of constrained text generation problem. Recent work has shown that constrained text generation poses challenges when directly prompting GPT-4~\cite{madaan2023selfrefine, bubeck2023sparks, yao2023collie}. To improve outputs, \citet{yao2023collie} propose a general method for using the same LLM to refine its own outputs; they evaluate their self-refine method on a constrained dialogue response generation task where responses are constrained by a general set of criteria such as relevance, consistency, informativeness, and helpfulness. A difference in our setting is responses are constrained by user-defined principles that are multi-faceted and do not apply in all dialogue contexts. This necessitates new modules that breakdown principles by their individual facets and that check the contextual-relevance of principles.
 % ultimately improving the ability of self-refine to adhere to such criteria. 
 \vspace{-0.05in}
 \section{Designing for Simulated Roleplay}\vspace{-0.05in}
 We take a human-centered design approach to developing a
-tool for mental health counselors to construct their own AI patients, by conducting formative studies with counselors to understand what AI patients they want to create, and their needs for effective human-LLM collaboration when constructing a AI patient. % (Section~\ref{sec:formative-tests}).  
+tool for mental health counselors to construct their own AI patients, by conducting formative studies with counselors to understand what AI patients they want to create, and their needs for effective human-LLM collaboration when constructing an AI patient. % (Section~\ref{sec:formative-tests}).  
 
 \subsection{Tool Design Principles} \label{sec:initialtooldesignrationale}
 
