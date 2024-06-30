@@ -15,9 +15,6 @@
 % Emojiis
 % \usepackage{emoji}
 
-% Control spacing of enumerate
-\usepackage{enumitem}
-
 % For proper rendering and hyphenation of words containing Latin characters (including in bib files)
 \usepackage[T1]{fontenc}
 % For Vietnamese charactershttps://www.overleaf.com/project/6546c8a52c26a3b6897c971d
@@ -102,7 +99,7 @@ Ryan Louie, Ananjan Nandi, William Fang \\
 \bf \hypersetup{linkcolor=black}
 Cheng Chang, Emma Brunskill, Diyi Yang \\
 Stanford University\\ 
-\thanks{Contact Emails: \{rylouie, diyiy\}@stanford.edu}
+\thanks{Email: \{rylouie, diyiy\}@stanford.edu, }
         }
         
 
@@ -119,7 +116,7 @@ Stanford University\\
 % However, faithfully simulating social dialogues with LLMs is difficult in sensitive settings like mental health, where data is difficult to obtain due to privacy concerns; and human feedback data from domain-experts is necessary but tedious to collect. 
 Recent works leverage LLMs to roleplay realistic social scenarios, aiding novices in practicing their social skills. However, simulating sensitive interactions, such as in mental health, is challenging. Privacy concerns restrict data access, and collecting expert feedback, although vital, is laborious.
 To address this, we develop Roleplay-doh, a novel human-LLM collaboration pipeline that elicits qualitative feedback from a domain-expert, which is transformed into a set of principles, or natural language rules, that govern an LLM-prompted roleplay. 
-We apply this pipeline to enable senior mental health supporters to create customized AI patients for simulated practice partners for novice counselors. After uncovering issues in GPT-4 simulations not adhering to expert-defined principles, we also introduce a novel principle-adherence prompting pipeline which shows 30\% improvements in response quality and principle following for the downstream task.  Via a user study with 25 counseling experts, we demonstrate that the pipeline makes it easy and effective to create AI patients that more faithfully resemble real patients, as judged by creators and third-party counselors.
+We apply this pipeline to enable mental health supporters to create customized AI patients for simulated practice partners for novice counselors. After uncovering issues in GPT-4 simulations not adhering to expert-defined principles, we also introduce a novel principle-adherence prompting pipeline which shows 30\% improvements in response quality and principle following for the downstream task.  Via a user study with 25 counseling experts, we demonstrate that the pipeline makes it easy and effective to create AI patients that more faithfully resemble real patients, as judged by creators and third-party counselors.
 
 % Training novice counselors effectively requires realistic practice environments. Traditional use of role-play or standardized patients—trained actors—is often impractical due to high costs and limited availability. This work explores the creation of AI patients via large language models (LLMs) as an accessible alternative.
 % We introduce a generalizable human-LLM collaboration pipeline that refines an LLM-prompted patient's behavior to more accurately reflect real patient interactions, by converting qualitative feedback into a set of expert-defined principles (i.e. a constitution) governing a customized simulation. We additionally contribute a principle-adherence pipeline, which shows up to 30\% improvements in response quality and principle following compared to direct GPT-4 prompting. User study results show that our pipeline empowers counselors to customize AI patients that faithfully resemble patient scenarios from their past experiences. 
@@ -163,6 +160,12 @@ To date, no system supports counseling experts, who are familiar with real-patie
 % [Increasing recognition that domain-expert feedback is essential to guide refinement and evaluation of LLM-simulations.  Something about how there is a desire to empower domain-experts to customize their LLM-simulation applications for their domains --- teachers designing simulation tools that help them ]
 
 
+
+\if 0
+% Actual - Ananjan's Copy
+The application of LLMs in simulations holds great potential for a variety of interactive applications, ranging from social skill training systems \cite{yang2024social} for domains such as counseling, to prototyping tools that use them as believable proxies of human behavior. However, achieving realistic and reliable simulations remains a significant challenge for most application domains, due to issues such as caricature \cite{cheng-etal-2023-compost}, bias, and domain knowledge limitations. Existing methods for improving LLM simulations such as finetuning ~\cite{demasi-etal-2020-multi} and preference-tuning ~\cite{rafailov2024direct} are often not feasible due to the cost and privacy concerns involved in obtaining the required data. This then necessitates \textit{experts-in-the-loop} to guide the evaluation and refinement~\cite{chen2023llmempowered, stapleton2023seeing} of the simulations. However, domain experts often struggle to effectively prompt LLMs to elicit desired behavior~\cite{petridis2023constitutionmaker}. Therefore, a system is required that can \textit{directly} use \textit{subjective} expert feedback to improve the simulation realism. 
+\fi
+
 % One domain that can especially benefit from good simulations is mental health. Shorten and include first para regarding why roleplay is important for mental health training, and how existing methods do not use LLMs.
 
 \if 0
@@ -192,7 +195,7 @@ This domain is also representative of many of the challenges associated with ach
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.98\textwidth]{figures/rpdteaser-clean.png}
-    \caption{Roleplay-doh empowers an expert counselor to create a customized AI patient intended for other novice counselors to use as a practice partner. While interacting with the AI patient, the expert counselor can provide qualitative feedback which is converted by an LLM into a principle, or a custom rule governing desired roleplay behavior. The AI patient references the updated expert-defined principles to generate its subsequent responses.}
+    \caption{Roleplay-doh empowers an expert counselor to create a customized AI patient intended for other novice counselors to use as a practice partner. While interacting with the AI patient, the expert counselor can provide qualitative feedback which is converted by an LLM into a principle, or a custom rule governing desired roleplay behavior. The principle is appended to the AI Patient's Constitution }
     \label{fig:rpdteaser}
 \end{figure*}
 % that governs the patient's roleplay. The AI patient references the latest AI Patient Constitution to generate responses that follow the expert-defined principles.
@@ -224,7 +227,7 @@ To address this limitation, we aim to enable human-LLM collaboration for realist
 % Since counselors may not know how to prompt LLMs to simulate desired personas and behaviors~\cite{whyjohnnycantprompt}, 
 % the pipeline should give them the ease and flexibility of giving feedback in their own words while still effectively steering the simulation. Second, since counseling experts may have multiple behaviors to customize, its useful to be able to rapidly test and iterate on different aspects of their simulation, which rules out methods requiring model re-training. Towards these design goals,
 % \raj{Recency in the next line is not a research goal and may not be a good adjective}
-Our initial tool design adopts an intuitive and effective paradigm for user-driven chatbot assistant design~\cite{petridis2023constitutionmaker}: experts customize a set of \textit{principles}, or rules written in natural language that govern its behavior \cite{bai2022constitutional}—by (1) interactively critiquing responses in natural language that then (2) gets transformed by an LLM into well-formulated principles describing how the LLM simulation should act from now on \textit{for example, "Respond to encouraging words with hesitation, doubting their significance"} (Fig~\ref{fig:rpdteaser}). The principles are then used along with a persona description to generate roleplay responses. 
+Our initial tool design adopts an intuitive and effective paradigm for user-driven chatbot assistant design~\cite{petridis2023constitutionmaker}: experts customize a set of \textit{principles}, or rules written in natural language that govern its behavior \cite{bai2022constitutional}--by (1) interactively critiquing responses in natural language that then (2) gets transformed by an LLM into well-formulated principles describing how the LLM simulation should act from now on \textit{for example, "Respond to encouraging words with hesitation, doubting their significance"} (Fig~\ref{fig:rpdteaser}). The principles are then used along with a persona description to generate roleplay responses. 
 % customize LLM chatbots by providing qualitative feedback that gets converted into \textit{a principle} or natural language rule that is added to a \textit{constitution} governing the chatbot's behavior~\cite{bai2022constitutional}. 
 % \raj{Why say instantiate here?}
 % We instantiate our human-LLM collaboration pipeline in \textbf{Roleplay-doh}
@@ -236,7 +239,7 @@ Our initial tool design adopts an intuitive and effective paradigm for user-driv
 % From our process testing Roleplay-doh with expert counselors creating AI patients, we also identified obstacles in LLM-simulations reliably producing high-quality responses after expert customization. 
 In our initial tests of the tool with expert-counselors, we found that even with expert refinement via principles, the LLM- simulations had difficulty delivering high-quality responses consistently.
 Our analysis of GPT-4 prompted simulation revealed that in 20\% of responses, the simulation had difficulty adhering to multipart principles and misapplying those principles that are only applicable in specific contexts e.g., \textit{only when the therapist provides encouraging words}.
-To resolve these issues, we introduce a novel \textbf{principle-adherence pipeline} in the final tool design. The first stage in the pipeline decomposes multipart and contextual principles into a set of yes/no questions that are easier to judge, and the second stage assesses the applicability of each simplified principle to the current scenario before self-refining~\cite{madaan2024self} the AI patient response as required.
+To resolve these issues, we introduce a novel \textbf{principle-adherence pipeline} in the final tool design. The first stage in the pipeline decomposes multipart and contextual principles into a set of yes/no questions that are easier to judge, and the second stage assesses the applicability of each simplified principle to the current scenario before self-refining~\cite{madaan2023selfrefine} the AI patient response as required.
 % \ryan{Not exactly accurate, since the first stage also adds principle questions regarding conventions like dialogue coherence and consistency.}
 %following the expert-defined principles or conventions like dialogue coherence and consistency.
 
@@ -251,10 +254,10 @@ we uncover that this design results in poor responses in 20\% of cases; an error
 To resolve these issues, we introduce a novel 
 % \textbf{principle-adherence prompting chain
 \textbf{principle-adherence pipeline
-} in the final tool design. The first step in the pipeline decomposes multipart and contextual principles into a set of yes/no questions that are easier to judge, and the second step assesses the applicability of each simplified principle to the current scenario before self-refining~\cite{madaan2024self} the AI patient response as required.
+} in the final tool design. The first step in the pipeline decomposes multipart and contextual principles into a set of yes/no questions that are easier to judge, and the second step assesses the applicability of each simplified principle to the current scenario before self-refining~\cite{madaan2023selfrefine} the AI patient response as required.
 \fi
 
-% within the dialogue-simulation pipeline which \textit{critiques} a candidate response for principle-adherence and \textit{revises} the response according to the critique. While similar to recent methods for self-refining LLM outputs~\cite{madaan2024self}, our principle-adherence pipeline is specifically designed to (1) decompose multipart and contextual principles into a set of yes/no questions that are easier to judge and (2) assess the applicability of principles to the dialogue context (Fig~\ref{fig:principle-adherence-pipeline}). 
+% within the dialogue-simulation pipeline which \textit{critiques} a candidate response for principle-adherence and \textit{revises} the response according to the critique. While similar to recent methods for self-refining LLM outputs~\cite{madaan2023selfrefine}, our principle-adherence pipeline is specifically designed to (1) decompose multipart and contextual principles into a set of yes/no questions that are easier to judge and (2) assess the applicability of principles to the dialogue context (Fig~\ref{fig:principle-adherence-pipeline}). 
 
 % \raj{First time in the paper I feel the word rapidly has popped up, there is no notion of time in as a positive of roleplaydoh before this. I also feel like I know what a scenario only method is but making it explicit will be really helpful.}
 % Our evaluation of Roleplay-doh studies the effectiveness of its human-LLM collaboration pipeline in using expert feedback to create and refine AI patients that are more authentic and ready for training. 
@@ -266,11 +269,11 @@ In a within-subjects study involving 25 expert counselors, participants created 
 % Our findings indicate that Roleplay-doh enables counselors to generate AI patients that are not only more authentic and closely mirror real cases, but are also better prepared for use and recommended as practice partners.
 The results show that Roleplay-doh enables counselors to produce AI patients that are more authentic, closely resemble real cases, and are better prepared for training use, as judged by creators and third-party counselors.
 % --as judged by counselor self-report and 5 counselor's acting as a third-party annotator. 
-Further, our principle-adherence pipeline achieves the highest principle following (win rate: 35\%; loss rate: 5\%) and dialogue consistency (win rate: 35\%; loss rate: 10\%) compared to all ablations, where preferences are made against a baseline that does not self-refine its output. 
+Further, our principle-adherence pipeline achieves the highest principle following (W: 35\%; L: 5\%) and dialogue consistency (W: 35\%; L: 10\%) compared to all ablations, where preferences are made against a baseline that does not self-refine its output. 
 % method performs better than [$\texttt{No Critique}$] on \textbf{M1} (W: 35\%; L 10\%) and on \textbf{M3} (W: 35\%; L 5\%), where it has the highest win/loss rates compared to all ablations.
 This work highlights the limitations of existing LLM simulation systems in specialized, data-scarce domains like mental health counseling, and designs and validates a tool that enables expert counselors to directly customize LLM simulations of AI patients.
 %Our work thus points out limitations in existing LLM simulation systems when used in the highly specialized domain of mental health counseling, and proposes an effective and performant tool as a solution that is validated by in-depth user studies involving domain experts.
-Since Roleplay-doh does not contain any technical components specifically tailored for mental health, we hypothesize that the tool can be used to build realistic LLM simulations for a wide variety of domains, with appropriate expert feedback.
+Since Roleplay-doh does not contain any components specifically tailored for the domain of mental health, we hypothesize that the tool can be used to build realistic LLM simulations for a wide variety of domains, with appropriate expert feedback.
 % Though we focus on creating AI patients for counseling training, the insights from Roleplay-doh's human-LLM collaboration pipeline and domain-expert evaluation can be applicable to other areas where the LLMs-simulations can benefit from customization through expert feedback. 
 %Through this human-LLM collaboration pipeline, experts in various domains are empowered to create custom LLM simulations via the incorporation of qualitative feedback.
 
@@ -278,37 +281,24 @@ Since Roleplay-doh does not contain any technical components specifically tailor
 \section{Related Work}\vspace{-0.05in}
 \paragraph{Utility of Simulated Partners}
 Simulated partners are used to give social skill learners the needed practice opportunities that textbook knowledge cannot provide. % Trained partners, however, may not always be available to practice, or may not be equipped to simulate a diversity of scenarios. 
-Past education software develops digital patient simulations to make simulated partners more accessible~\cite{othlinghaus2020seriousroleplaying} but their tailored dialogue setup %trees 
-limit the contexts for practice. LLMs can overcome this issue by being flexibly configured to convincingly simulate a diverse set of personas~\cite{park2022social} and characters~\cite{park2023generative} and generate responses in a range of contexts. Researchers have thus explored their application for simulation training for K12 teaching~\cite{markel_opferman_landay_piech_2023}, conflict resolution~\cite{rehearsal}, and counseling~\cite{demasi-etal-2020-multi,tanana2019development, chen2023llmempowered}. 
-Previous work has proposed methods to simulate diverse personas and scenarios, but to make practice more  transferable~\cite{alinier2022simulation}, they must ensure simulations are faithful to what is encountered in real-world social situations.
+Past education software develops digital patient simulations to make simulated partners more accessible~\cite{othlinghaus2020seriousroleplaying} but their tailored dialogue trees limit the contexts for practice. LLMs can overcome this issue by being flexibly configured to convincingly simulate a diverse set of personas~\cite{park2022social} and characters~\cite{park2023generative} and generate responses in a range of contexts. Researchers have thus explored their application for simulation training for teaching~\cite{markel_opferman_landay_piech_2023}, conflict resolution~\cite{rehearsal}, and counseling~\cite{demasi-etal-2020-multi,tanana2019development}. 
+Previous work has proposed methods to simulate diverse personas and scenarios, but to make practice more useful and transferable~\cite{alinier2022simulation}, they must ensure simulations are faithful to what is encountered in real-world social situations.
 
 \paragraph{Aligning Simulation with Domain Experts}
 Feedback from domain experts is crucial to evaluating and improving the realism of LLM simulations. Recent approaches for aligning to human feedback, like \citet{christiano2017deep} or \citet{rafailov2024direct} depend on large amounts of preference data which requires lots of expert time to collect. A more efficient approach is through alignment to qualitative or natural language feedback \cite{shi2022life}. 
-We build on a recent paradigm for user-driven chatbot design~\cite{petridis2023constitutionmaker} that elicits qualitative feedback on responses which gets converted into constitution principles~\cite{bai2022constitutional}, which are explainable and effective natural language rules that govern the LLM's behavior.
-% Constitutional AI offers a specific alignment strategy involving natural language principles, which are rules that an LLM should follow~\cite{bai2022constitutional}. 
-% Since constitutions are an explainable and effective method for customizing model behavior, our tool supports expert counselors in defining constitution principles to customize an AI patient simulation. \citet{petridis2023constitutionmaker} studied the human process for writing principles while interactively critiquing model outputs and discovered that there are many cognitive challenges converting critiques into principles. To address these challenges, they developed a tool that allows the user to provide qualitative feedback on responses which gets converted into constitution principles, which are used to alter the LLM's prompt to steer chatbot responses. 
-Our initial tool design adopts this paradigm to support domain-experts to customize an LLM-simulated patient,
-% counseling experts to create and customize AI patients,
-and the final version extends it with a novel principle-adherence prompting pipeline.
+Constitutional AI offers a specific alignment strategy involving natural language principles, which are rules that an LLM should follow~\cite{bai2022constitutional}. 
+% A constitution's principles can be used to alter an LLM's prompt, or generate new training data for further fine-tuning as in the original ConstitutionalAI work. 
+Since constitutions are an explainable and effective method for customizing model behavior, our tool supports expert counselors in defining constitution principles to customize an AI patient simulation. \citet{petridis2023constitutionmaker} studied the human process for writing principles while interactively critiquing model outputs and discovered that there are many cognitive challenges converting critiques into principles. To address these challenges, they developed a tool that allows the user to provide qualitative feedback on responses which gets converted into constitution principles, which are used to alter the LLM's prompt to steer chatbot responses. Our initial tool design adopts this paradigm to support counseling experts to create and customize AI patients, and the final version extends it with a novel principle-adherence prompting pipeline.
+In the mental health area, researchers are involving therapy experts when prompting LLMs for simulation~\cite{chen2023llmempowered, lin2024imbue}. 
+% In this way, qualitative feedback is gathered during testing sessions with experts, which informs how a researcher engineers the LLM prompts. 
+However, requiring a researcher-in-the-loop to refine prompts hinders the speed of iterative design. Our aim is to enable counseling experts to customize the AI patient's constitution simulations that  to eliminate through our work.
+% upon a customized LLM-simulation. 
+% In our work, we use a principle elicitation approach to rapidly incorporate a domain experts feedback into customized LLM-simulations.
 
-In the mental health area, researchers have incorporated domain-expert feedback when prompting LLM for simulated patients, resulting in patients that use colloquial and resistant language~\cite{chen2023llmempowered, stapleton2023seeing} or that can take on diverse conversation styles, such as upset, verbose, or reserved~\cite{wang2024patient}. 
-Such work, however, required a researcher-in-the-loop to refine prompts, hindering the speed of iterative design.
-% thus hindering the speed and scale in which realistic patients backed by expert-feedback can be developed. 
-Our work introduces a human-LLM collaborative tool that enables domain-experts to directly create and refine LLM roleplay simulation to faithfully resemble real-world patients.
 
 % \raj{Are there other papers on simulating virtual patients, if yes, you can consider creating a section for that}
-% \paragraph{LLM simulated Patients} 
-% Our work closely relates to works using LLMs to simulate patients in mental health dialogues. 
-% % As several work has recognized, mental health datasets are scarce making fine-tuning approaches less feasible.
-% To make prompted LLM-patients more realistic, recent work has co-designed their prompts with clinical experts.
-% \citet{chen2023llmempowered} co-designed a depressive AI patient with a less expressive and more resistant language style.
-% In concurrent work to ours, \citet{wang2024patient} co-designed AI patients by tasking clinical experts to write patient scenarios using templates grounded in the clinical psychology theory, which could be customized with different conversation styles (e.g., verbose, reserved).
-% However, requiring a researcher-in-the-loop to refine prompts hinders the speed and scale in which expert-feedback can be incorporated. Our work aims to enable domain-experts to create and refine LLM-based roleplay simulations more directly. 
-
-
-
 \paragraph{Text Generation with LLMs}
-Generating dialogue responses that adhere to user-defined principles is a type of constrained text generation problem. Recent work has shown that constrained text generation poses challenges when directly prompting GPT-4~\cite{madaan2024self, bubeck2023sparks, yao2023collie}. To improve outputs, \citet{madaan2024self} propose a self-refine method and conduct evaluation experiments on a dialogue simulation task where responses are constrained by a general set of criteria such as relevance, consistency, informativeness, and helpfulness. A difference in our setting is responses are constrained by expert-defined principles that are multi-faceted and do not apply in all dialogue contexts. This necessitates new modules that breakdown principles into multiple, concise questions and check the applicability of principles prior to evaluating them.
+Generating dialogue responses that adhere to user-defined principles is a type of constrained text generation problem. Recent work has shown that constrained text generation poses challenges when directly prompting GPT-4~\cite{madaan2023selfrefine, bubeck2023sparks, yao2023collie}. To improve outputs, \citet{yao2023collie} propose a self-refine method and conduct evaluation experiments on a dialogue simulation task where responses are constrained by a general set of criteria such as relevance, consistency, informativeness, and helpfulness. A difference in our setting is responses are constrained by expert-defined principles that are multi-faceted and do not apply in all dialogue contexts. This necessitates new modules that breakdown principles into multiple, consise questions and check theapplicability of principles prior to evaluating them.
 % ultimately improving the ability of self-refine to adhere to such criteria. 
 \vspace{-0.05in}
 \section{Designing for Simulated Roleplay}\vspace{-0.05in}
@@ -346,19 +336,19 @@ Our prompt (Appendix~\ref{sec:llmprompts-vanilla}) instructs GPT-4 to simulate a
 \subsection{Pilot Testing} \label{sec:formative-tests}
 
 % \raj{Would it make sense to say this is a pilot study, and we learn the following two things from it? Potentially cut down on some of the text here, it may be too verbose and can be brought down to half column.}
-We pilot tested the tool with 6 counselors who had experience giving support to real patients on an online peer support platform; refer to Appendix \ref{sec:participant-background} and \ref{sec:appendix_formative} for participant backgrounds and the pilot procedure. 
+We pilot tested the tool with 5 counselors who had experience giving support to real patients on an online peer support platform; refer to Appendix \ref{sec:participant-background} and \ref{sec:appendix_formative} for participant backgrounds and the pilot procedure. 
 % During a 90-minute session, expert counselors created and customized 2 AI patients on average, as time allowed. 
-Additionally, four of the co-authors each conversed with four AI patients created (Table~\ref{tab:fourAIpatients} and assessed how well the simulation adhered to the expert-defined principles; refer to Appendix~\ref{appendix-sec:principle-adherence-testing} for details on the procedure and qualifications of the co-authors. Overall, the pilot tests and principle-adherence analysis helped uncover two obstacles to effective simulated roleplay. 
+Additionally, four of the co-authors each conversed with four AI patients created and assessed how well the simulation adhered to the expert-defined principles; refer to Appendix~\ref{appendix-sec:principle-adherence-testing} for details on the procedure and qualifications of the co-authors. Overall, the pilot tests and principle-adherence analysis helped uncover two obstacles to effective simulated roleplay. 
 
-\paragraph{O1: \textit{Defining ``realistic'' patient behavior is ambiguous}} \label{sec:pilot-o1} 
+\paragraph{O1: \textit{Defining "realistic" patient behavior is ambiguous}} \label{sec:pilot-o1} 
 Counselors felt the tool was easy to use and effective at guiding the AI patient's behavior, as indicated by moderate to high agreement scores on a tool usage questionnaire as shown in Table~\ref{tab:tooluse-formative} in Appendix~\ref{sec:appendix_formative}. % Counselors  noted that they liked that there were multiple ways to provide feedback, and the system could help them formulate them into principles. 
 However, the task of creating a 'realistic' AI patient for an imagined scenario was confusing, as counselors have interacted with many types of patients who respond in various, yet equally realistic ways. 
 % Determining what constitutes a typical response was difficult. 
 This insight helped us re-frame the task in later sessions as recreating a challenging scenario from one's past, which removed the ambiguity of what behaviors are realistic by having them refer to a specific case from memory. 
 
 
-\paragraph{O2: \textit{20\% of responses produced by GPT-4 do not satisfy expert principles or dialogue conventions.}} \label{sec:pilot-o2}
-Specifically, 20\% (55/276) of cases were rated as moderately, slightly, or not at all satisfying, at following all principles and being appropriate to the dialogue context. Further analysis of these cases helped to uncover three sources of error.
+\paragraph{O2: \textit{20\% of responses produced by GPT-4 don't satisfy expert principles or dialogue conventions.}} \label{sec:pilot-o2}
+Specifically, 20\% (55/276) of cases were rated as moderately (3), slightly (2), or not at all satisfying (1) at following all principles and being appropriate to the dialogue context. Further analysis of these cases helped to uncover three sources of error.
 % \ryan{TODO: In the appendix, we could show a table of the ratings, broken down by AI patients. Each AI patient was complex, but the very complex AI patient would likely break lots of principles!}
 % or \textit{"Sometimes, you ask for advice on how to overcome your concerns such as saing "what should I do"}. 
  \textit{\textbf{Not satisfying multiple principles at once:}} Generated responses could struggle to follow all the principles when there was a large number of principles, or when the provided principles were a complex composition of simpler principles. 
@@ -371,7 +361,7 @@ Specifically, 20\% (55/276) of cases were rated as moderately, slightly, or not 
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{figures/principle-adherence-stages-colorpop.png}
-    \caption{\small{Principle-adherence prompting pipeline for mitigating errors in satisfying expert principles and dialogue conventions. In Stage 1, expert-defined principles are rewritten into several \texttt{Yes/No} questions; and the LLM generates additional principle questions that are relevant to ensure adherence to dialogue conventions such as coherence and consistency. In Stage 2, the LLM (a) evaluates whether the questions are applicable to the context and the answers to the principle-adherence questions; and (b) refines the response to ideally receive \texttt{Yes} on all questions.}
+    \caption{\small{Principle-adherence prompting pipeline for mitigating errors in satisfying expert principles and dialogue conventions. In Stage 1, expert-defined principles are rewritten into several \texttt{Yes/No} questions; and the LLM generates additional principle questions that are relevant to ensure adherence to dialogue conventions such as coherence and consistency. In Stage 2, the LLM (a) evaluates whether the questions are applicable to the context and the answers to the principle-adherence questions; and (b) refines the response to ideally receive \texttt{Yes} on all question.}
     \label{fig:principle-adherence-pipeline}}
 \end{figure*}
 \vspace{-0.05in}
@@ -427,72 +417,56 @@ We recruit 25 counseling experts with real-world experience in mental health sup
 
 % Colab: https://colab.research.google.com/drive/1xjLde7Ag9sxaOSZm1W3TB6Qmrmzfngtv#scrollTo=Q-03EAvKWOc0
 % multiple hypothesis calculation: https://docs.google.com/spreadsheets/d/1e_qhwnNqj4P467n52Yn5EmHt1d_8g4CuFHNH3vQhExE/edit#gid=510140482
-
-% ORIGINAL CREATOR STUDY TABLE
-% \begin{table}[t]
-%     \centering
-%     \resizebox{0.485\textwidth}{!}{
-%     \begin{tabular}{|l|c|l|} \hline 
-%           \textbf{Measure}&\textbf{Scenario Only}&\textbf{+ Principles}\\ \hline 
-%           Authenticity&5.24&+0.80 ** \\ \hline 
-%           Stayed in Role&6.32&+0.08\\ \hline 
-%           Resembled Past Case&4.80&+0.76 * \\ \hline 
-%           Mirrored Hard Aspects &4.52&+1.00 * \\ \hline 
-%           Ready as Training Partner&5.16&+0.64 *  \\ \hline 
-%           Recommend to Novices&5.76&+0.52 * \\ \hline
-%     \end{tabular}
-%     }
-%     \caption{\small{Creators (N=25) rated their own \textit{Scenario-Only} vs \textit{Scenario+Expert Principles} AI patients along six measures using a 7-point Likert-scale. After refining the AI patient simulation with Expert Principles, creators rate the patient significantly higher on all measures except for \textit{stayed in role}, for which both AI patients score highly. 
-%     %Results remain significant after using the ~\citet{benjamini1995controlling} method to correct for multiple comparisons ($Q=0.05$). 
-%     (***:$p<.001$, **:$p<0.01$, *:$p<0.05$.)}}
-%     \label{tab:creatorstudy-comparison}
-% \end{table}
-
-% COMBINED TABLE
-\begin{table*}[t]
+\begin{table}[t]
     \centering
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{|l|c|l|l|l|l|}\hline
- \multicolumn{3}{|c|}{Ratings by Counselor Creators}& \multicolumn{3}{|c|}{Ratings by Third-Party Counselors}\\\hline% \hline
- \hline 
-          \textbf{Measure}&\textbf{Scenario Only}&\textbf{+ Principles} &  \textbf{Measure}&\textbf{Scenario Only}&\textbf{+ Principles} \\ \hline 
-          Authenticity&5.24&+0.80 **  &   Authenticity &5.32&+0.31 * \\ \hline 
-          Stayed in Role&6.32&+0.08 &   Stayed in Role &6.29&+0.09\\ \hline 
-          \emph{Resembled Past Case}&4.80&+0.76 *  &  \emph{Resembled Typical Case}&4.91&+0.49 ** \\ \hline 
-          \emph{Mirrored Challenging Aspects}&4.52&+1.00 *  &  \emph{Challenged the Counselor}&2.13&+0.22 \\ \hline 
-          Ready as Training Partner&5.16&+0.64 *   &   Ready as Training Partner &5.05&+0.39 **  \\ \hline 
-          Recommend to Novices&5.76&+0.52 *  &  Recommend to Novices &5.03&+0.38 * \\ \hline
+    \resizebox{0.485\textwidth}{!}{
+    \begin{tabular}{|l|c|l|} \hline 
+          \textbf{Measure}&\textbf{Scenario Only}&\textbf{+ Principles}\\ \hline 
+          Authenticity&5.24&+0.80 ** \\ \hline 
+          Stayed in Role&6.32&+0.08\\ \hline 
+          Resembled Past Case&4.8&+0.76 * \\ \hline 
+          Mirrored Hard Aspects &4.52&+1.00 * \\ \hline 
+          Ready as Training Partner&5.16&+0.64 *  \\ \hline 
+          Recommend to Novices&5.76&+0.52 * \\ \hline
     \end{tabular}
     }
-    \caption{\small{Creators and third-party counselors compared the \textit{Scenario-Only} vs. \textit{Scenario+ExpertPrinciples} AI patients using 7-point Likert-scale measures; third-party judges were asked identical measures when possible, with two measures modified to match the external perspective. \textbf{Creator Ratings:} Creators (N=25) rated both AI patients. After refining the AI patient simulation with principles, creators rate the patient significantly higher on all measures except for \textit{stayed in role}, for which both AI patients score highly. \textbf{Third-Party Ratings:} Third-party counselors (N=5) provided 125 total comparisons of the two AI patient versions. The treatment effect of adding expert principles was estimated using using the following linear mixed-effect model: \lstinline[]!Rating\~Treatment+CreatorID+(1|AnnotatorID)!. Third-party counselors rate AI patients with principles significantly higher on 4 of the 6 measures. (***:$p<.001$, **:$p<0.01$, *:$p<0.05$.)}}
-    \label{tab:combined-comparison}
-\end{table*}
+    \caption{\small{Creators (N=25) rated their own \textit{Scenario-Only} vs \textit{Scenario+Expert Principles} AI patients along six measures using a 7-point Likert-scale. After refining the AI patient simulation with Expert Principles, creators rate the patient significantly higher on all measures except for \textit{stayed in role}, for which both AI patients score highly. 
+    %Results remain significant after using the ~\citet{benjamini1995controlling} method to correct for multiple comparisons ($Q=0.05$). 
+    (***:$p<.001$, **:$p<0.01$, *:$p<0.05$., .:$p<0.1$)}}
+    \label{tab:creatorstudy-comparison}
+\end{table}
+
+% \begin{figure}[t]
+%     \centering
+%     \includegraphics[width=\columnwidth]{figures/creatorstudy-ratings.pdf}
+%     \caption{\small{Creator ratings of AI patients. \emph{Scenario+Expert Principles} shows a significantly higher score than \emph{Scenario Only} on authenticity ($\mu_2=5.9$, $\mu_1=5.0$, **, $d=.66$), resemblance to past case ($\mu_2=5.8$, $\mu_1=4.8$, *, $d=.59$), mirroring challenging aspects ($\mu_2=5.6$, $\mu_1=4.4$, *, $d=.76$), readiness as training partner ($\mu_2=6.0$, $\mu_1=4.9$, ***, $d=.93$), and recommendation for novices ($\mu_2=6.4$, $\mu_1=5.5$, **, $d=.66$). No difference was found for role consistency ($\mu_2=6.3$, $\mu_1=6.2$, $d=.13$). Results remain significant after using the ~\citet{benjamini1995controlling} method to correct for multiple comparisons ($Q=0.05$). (***:$p<.001$, **:$p<0.01$, *:$p<0.05$. $d$: Cohen's $d$ calculated by dividing by $\sigma_1$ of control group.}}
+%     \label{fig:creatorstudy-comparison}
+% \end{figure}
 
 
+\begin{table}[t]
+    \centering
+    \resizebox{0.485\textwidth}{!}{
+    \begin{tabular}{|l|c|l|} \hline 
+          \textbf{Measure}&\textbf{Scenario Only}&\textbf{+ Principles}\\ \hline 
+          Authenticity&5.32&+0.31 * \\ \hline 
+          Stayed in Role&6.29&+0.09\\ \hline 
+          Resembled Typical Cases&4.91&+0.49 ** \\ \hline 
+          Challenged the Counselor&2.13&+0.22 \\ \hline 
+          Ready as Training Partner&5.05&+0.39 **  \\ \hline 
+          Recommend to Novices&5.03&+0.38 * \\ \hline
+    \end{tabular}
+    }
+    \caption{\small{Third-party counselors (N=5) provided 125 total comparisons of the \textit{Scenario-Only} vs \textit{Scenario+Expert Principles} AI patients along six measures using a 7-point Likert-scale. The treatment effect of adding expert principles was estimated using using the following linear mixed-effect model: \lstinline[]!Rating\~Treatment+CreatorID+(1|AnnotatorID)!}. (***:$p<.001$, **:$p<0.01$, *:$p<0.05$., .:$p<0.1$)}
+    \label{tab:thirdpartystudy-comparison}
+\end{table}
   
 \subsection{Creator Perceptions}\label{sec:firstparty}
-The AI patients prompted with \textit{Scenario+Expert Principles} were rated significantly higher than \textit{Scenario-Only} on all measures except for role consistency, for which both methods score highly (Table~\ref{tab:combined-comparison}).
+% Quantitative - Authenticity, Challenge, Readiness
+% Table~\ref{tab:creatorstudy-comparison} shows the results of counselors' ratings of the two AI patients they created. 
+The AI patients prompted with \textit{Scenario+Expert Principles} were rated significantly higher than \textit{Scenario-Only} on all measures except for role consistency, for which both methods score highly (Table~\ref{tab:creatorstudy-comparison}).
 Counselors mentioned the \textit{Scenario-Only} AI patient \textbf{lacked emotional depth in expression}. As one noted, \textit{"patients don't state a feeling such as 'I feel hopeless'. They display their current emotional state in their manner of speech."} \textit{Scenario-only} was also \textbf{too articulate and forthcoming} when describing issues, where encouraging real patients to share is \textit{"as challenging as pulling teeth"}. It was characterized as \textbf{too cooperative}, too willing to accept. Despite counselors writing behavioral traits such as \textit{"not talkative"} and \textit{"reluctant"} in the patient scenario, \textit{Scenario-only} did not exhibit these behaviors.
 % \raj{Raj pass ends here}
-
-% SEPARATE THIRD-PARTY TABLE
-% \begin{table}[t]
-%     \centering
-%     \resizebox{0.485\textwidth}{!}{
-%     \begin{tabular}{|l|c|l|} \hline 
-%           \textbf{Measure}&\textbf{Scenario Only}&\textbf{+ Principles}\\ \hline 
-%           Authenticity&5.32&+0.31 * \\ \hline 
-%           Stayed in Role&6.29&+0.09\\ \hline 
-%           Resembled Typical Cases&4.91&+0.49 ** \\ \hline 
-%           Challenged the Counselor&2.13&+0.22 \\ \hline 
-%           Ready as Training Partner&5.05&+0.39 **  \\ \hline 
-%           Recommend to Novices&5.03&+0.38 * \\ \hline
-%     \end{tabular}
-%     }
-%     \caption{\small{Third-party counselors (N=5) provided 125 total comparisons of the \textit{Scenario-Only} vs \textit{Scenario+Expert Principles} AI patients along six measures using a 7-point Likert-scale. The treatment effect of adding expert principles was estimated using using the following linear mixed-effect model: \lstinline[]!Rating\~Treatment+CreatorID+(1|AnnotatorID)!}. (***:$p<.001$, **:$p<0.01$, *:$p<0.05$.)}
-%     \label{tab:thirdpartystudy-comparison}
-% \end{table}
-
 \begin{table*}
     % \small
     \footnotesize
@@ -510,7 +484,7 @@ Counselors mentioned the \textit{Scenario-Only} AI patient \textbf{lacked emotio
           &&\cellcolor{green!60}&12& Proactively seek out solutions and show reflective insight over time. \colorbox{yellow!30}{*} &  When discussing personal struggles, provide reflective insights into your situation and propose actionable steps for improvement to continue the conversation effectively. \\ \hline 
 
     \end{tabular}}
-    \caption{\small{Themes taken from qualitative analysis of principles and representative examples. We discover several novel (\colorbox{yellow!30}{*}) principles compared to those defined in prior work on AI patients~\cite{chen2023llmempowered, stapleton2023seeing}. Themes are categorized into stages of conversation taken from \cite{liu-etal-2021-towards}: \colorbox{orange!40}{exploration}, \colorbox{blue!30}{comforting}, and \colorbox{green!60}{action}; those relating to the overall conversation are categorized as \colorbox{gray!60}{stage-agnostic}.}}
+    \caption{\small{Themes taken from qualitative analysis of principles and representative examples. We discover several novel (\colorbox{yellow!30}{*}) principles compared to those defined in prior work on AI patients~\cite{chen2023llmempowered, stapleton2023seeing}. Themes are categorized into stages of conversation taken from \cite{DBLP:journals/corr/abs-2106-01144}: \colorbox{orange!40}{exploration}, \colorbox{blue!30}{comforting}, and \colorbox{green!60}{action}; those relating to the overall conversation are categorized as \colorbox{gray!60}{stage-agnostic}.}}
     \label{tab:principle_table}
 \end{table*}
 
@@ -521,9 +495,9 @@ Counselors mentioned the \textit{Scenario-Only} AI patient \textbf{lacked emotio
 % Counselors defined principles with Roleplay-doh to mould a more realistic AI patient. 
 Across the 25 \textit{Scenario+ExpertPrinciple} AI patients, 123 total principles were created (min=1, max=10, median=5). Two authors did a qualitative coding of these principles following a thematic analysis approach~\cite{braun2006thematicanalysis} where codes were initially defined and revised during the process.
 % Groupings in each stage
-Besides \colorbox{gray!60}{stage-agnostic} themes dictating a \textbf{concise} (14 patients) and \textbf{colloquial} (7 patients) speaking style, counselors created principles related to the stages of an emotional support conversation \cite{liu-etal-2021-towards}: 1) \colorbox{orange!40}{exploration}: identifying the patient's problems, 2)\colorbox{blue!30}{comforting}: using empathy and understanding to comfort the patient, and 3) \colorbox{green!60}{action}: formulating solutions to the patient's problems. For instance, we find a common theme of instructing the AI patient to \textbf{show initial skepticism with the idea of seeking help} (14 patients), corresponding to the style of interaction in the \colorbox{orange!40}{exploration} stage of conversation. Table \ref{tab:principle_table} provides a full list of principle themes, examples, and corresponding conversation stages. 
+Besides \colorbox{gray!60}{stage-agnostic} themes dictating a \textbf{concise} (14 patients) and \textbf{colloquial} (7 patients) speaking style, counselors created principles related to the stages of an emotional support conversation \cite{DBLP:journals/corr/abs-2106-01144}: 1) \colorbox{orange!40}{exploration}: identifying the patient's problems, 2)\colorbox{blue!30}{comforting}: using empathy and understanding to comfort the patient, and 3) \colorbox{green!60}{action}: formulating solutions to the patient's problems. For instance, we find a common theme of instructing the AI patient to \textbf{show initial skepticism with the idea of seeking help} (14 patients), corresponding to the style of interaction in the \colorbox{orange!40}{exploration} stage of conversation. Table \ref{tab:principle_table} provides a full list of principle themes, examples, and corresponding conversation stages. 
 
-While we observe overlaps in the types of principles defined, we also observe some contradictory themes. For example, the call for being \textbf{disorganized and conflicted} (9 patients) contrasts calls to make responses \textbf{concise and direct} (14 patients). In the \colorbox{green!60}{action} stage of conversation, several counselors added principles to make the AI patient \textbf{proactively ask for advice} (12 patients); nonetheless, other counselors added an opposing principle to \textbf{not seek out solutions} but rather just share their thoughts and feelings (3 patients). These opposing principles highlights the need for different principles to describe diverse conversation behavior and styles, challenging the notion of defining AI patients based on a single set of principles. 
+While we observe overlaps in the types of principles defined, we also observe some contradictory themes. For example, the call for being \textbf{disorganized and conflicted} (9 patients) contrasts calls to make responses \textbf{concise and direct} (14 patients). In the \colorbox{green!60}{action} stage of conversation, several counselors added principles to make the AI patient \textbf{proactively ask for advice} (12 patients); nonetheless, other counselors added an opposing principle to \textbf{not seek out solutions} but rather just share their thoughts and feelings (3 patients). These opposing principles highlights the need for different principles to describe diverse patient behavior, which challenges the notion of defining AI patients based on a single set of principles. 
 
 \paragraph{Tool User Experience} Counselors found the tool helpful for writing principles that \textbf{effectively guided} the AI patient to recreate their past case ($\mu=6.04$, $\sigma=1.06$). With the tool, most found it \textbf{easy} to convert their thoughts and feedback on the AI patient's behavior into principles ($\mu=6.12$, $\sigma=1.13$). Counselors felt they could \textbf{efficiently} write principles ($\mu=6.3$, $\sigma=1.29$), without requiring much \textbf{mental demand} ($\mu=3.20$, $\sigma=1.70$). 
 Many counselors liked how the tools \emph{"organized their thoughts into rules"}, without \emph{"needing to word it perfectly."}
@@ -585,11 +559,12 @@ The third-party counselors rated the same six dimensions as the creator study, w
 \end{figure*}
 
 % Overall performance
-Third-party judges rate AI Patients with expert-defined principles as more authentic, resembling typical cases, ready as a training partner, and likely recommend to novices (Table~\ref{tab:combined-comparison}). 
+Third-party judges rate AI Patients with expert-defined principles as more authentic, resembling typical cases, ready as a training partner, and likely recommend to novices (Table~\ref{tab:thirdpartystudy-comparison}). 
 %The addition of \textit{Expert Principles} increases an AI patient's ratings over the \textit{Scenario-only} counterpart by 0.31 - 0.64 points. 
 However, when compared to the creator study results, the increase in ratings is smaller from the perspective of third-party counselors.
 % Agreement between third-party counselors is lower but positive (Krippendorf's $\alpha$ is between 0.22 - 0.3 across the six measures), which can explain this smaller effect size.
-We explore the reasons for this smaller difference in Appendix~\ref{appendix-sec:thirdparty-qual-analysis}, finding that there is lower agreement on which AI patient is preferred (Table~\ref{tab:thirdparty_ratingdifference_alpha}), due to the different principles attended to by third-party counselors and the specific principles added by the creator.
+We explore the reasons for this smaller difference in Appendix~\ref{appendix-sec:thirdparty-qual-analysis}.
+We find this disagreement can be attributed to different principles attended to by third-party counselors and the specific principles added by the creator. 
 % See Appendix~\ref{appendix-sec:thirdparty-detailed-measures} for detailed analyses.
 \vspace{-0.05in}
 \section{Evaluation of Principle-Adherence}
@@ -660,21 +635,20 @@ As such, the principles that counselors added may not have addressed all underly
 % This means that the AI patients and principles are best applied to this particular use case.
 
 In this paper, we focused on enabling counselors to create AI patients that can simulate realistic interactions via \textit{text-based dialogues}. However, we acknowledge that text-based interaction has its limitations for training. Professional psychotherapists may gain useful information from the tone, facial expression, posture, and other non-verbal behaviors of their patients, which better help them empathize and support patients.
-This is a limitation of our current AI patients and online, text-based, mental health counseling in general. % , which means that the system is best applied to the training within this particular field. 
-With the rapid development of multimodal models, future works may have the opportunity to explore creating realistic AI patients in other modalities that better match the modality within which a counselor will eventually support patients.
+This is a limitation of our current AI patients and online, text-based, mental health counseling in general, which means that the system is best applied to the training within this particular field. With the rapid development of multimodal models, future works may have the opportunity to explore creating realistic AI patients in other modalities that better match the modality within which a counselor will eventually support patients.
 
 
 \section*{Ethics Statement} 
 
 This study was approved by our institution's Institutional Review Board (IRB).
-All investigators in the study completed the responsible code of conduct in research training. We have compensated domain experts at a minimum rate of \$25 per hour, going beyond the minimum wage in the United States.
+All investigators in the study completed the CITI Program certifications on responsible code of conduct in research. We have compensated domain experts at a minimum rate of \$25 per hour, going beyond the minimum wage in the United States.
 
 We are optimistic about the potential benefit that our AI patients can bring to the fields of counseling and psychotherapy. At the same time, we solicited feedback from counselors about any potential concerns regarding the AI patients.
 During these interviews, some counselors emphasized the irreplaceability of peer-to-peer roleplay with humans during training, due to the unique opportunity it provides for novice counselors to connect with others, especially for online counseling platforms where counselors are often isolated from one another.
 % Therefore, we believe that the AI patient system we created should not be used to replace human-to-human interaction during counselor training. 
-To preserve human-to-human interactions, future work requires a participatory design approach before attempting to integrate AI patients into existing practices and learning environments.
+To preserve human-to-human interactions, future work requires a participatory design approach before attempting to integrate AI patients into people's existing practices and learning environments.
 
-Our hope is that interactions with AI patients can glean important lessons that help counselors go from simulation into the real-world.  Nonetheless, a risk with simulation is that counselors can become overconfident in supporting a AI patient, but may not effectively support patients with real mental health concerns. As part of a larger curriculum, AI patients should be just one tool for practicing these skills. Real counselors and therapists should be able to take on real patients only after passing traditional certifications and background checks. 
+Our hope is that interactions with AI patients can glean important lessons that help counselors go from simulation into the real-world.  Nonetheless, a risk with simulation is that counselors can become overconfident in supporting a AI patient, but may not effectively support patients with real mental health concerns. We believe AI patients should be just one tool for practicing these skills as part of larger curriculum. Traditional certifications and background checks should govern when real counselors or therapists should be able to take on real patients. 
 
 % We would also like to highlight the detrimental effects that the outputs of the AI patient system may bring to its users.
 % This is due to the sensitive nature of the topic of mental health and the internal mechanism of the system.
@@ -683,7 +657,7 @@ Our hope is that interactions with AI patients can glean important lessons that 
 % This is especially the case if the users develop attachment to the AI patients, or if highly sensitive topics, such as self-harm or suicide, are discussed during the conversations.
 % \cheng{if we are to include the below claim we need citation. I hope to leave this up to you to decide if/which paper we need to cite. @Ryan} This is also an issue faced by mental health counselors during interactions with human help seekers and requires further studies and societal awareness to mitigate the harm it may bring.
 
-It is impossible to promise that all interactions with an LLM such as GPT-4 result in satisfactory responses. Therefore, meaningless, derogatory, and otherwise harmful responses may also be generated and cause unwanted effects on users. While our principle-adherence pipeline is a potential inference-time solution to mitigate such harmful responses, we must acknowledge this possibility, especially due to the stochastic nature of LLM. Users should be advised about these potential side effects before using the system in any scenario. For our experiment, we created consent forms that made sure counselors were aware of these issues.
+It is impossible to promise that all interactions with an LLM such as GPT-4 result in satisfactory responses. Therefore, meaningless, derogatory, and otherwise harmful responses may also be generated and cause unwanted effects on users. While our principle-adherence pipeline is a potential inference-time solution to mitigate such harmful responses, we must acknowledge this possibility, especially due to the stochastic nature of LLM. Users should be advised about these potential side effects before using the system in any scenario. In our experiments, we designed consent forms to make sure that the counselors are aware of these drawbacks.
 
 
 \bibliography{anthology,custom}
@@ -699,75 +673,32 @@ It is impossible to promise that all interactions with an LLM such as GPT-4 resu
 
 Counselors with real-world experience in mental health support were recruited for our pilot tests, creator studies, and technical evaluations of the principle-adherence pipeline. We present more detailed information about how they were recruited, and their background. 
 
-After receiving permission from the 7 Cups platform~\cite{7cupswebsite} for our IRB-approved study, we recruited online peer counselors from the 7 Cups platform~\cite{7cupswebsite}. Participants were required to be 18 yrs or older, from the United States, and to have had experience giving support to 30+ members on the online site. Our pilot tests were conducted exclusively with 6 online-peer counselors from 7 cups; our creator study used an additional 4 peer counselors from the 7 cups site.
+After receiving permission from the 7 Cups platform~\cite{7cupswebsite} for our IRB-approved study, we recruited 11 online peer counselors from the 7 Cups platform~\cite{7cupswebsite}. Participants were required to be 18 yrs or older, from the United States, and to have had experience giving support to 30+ members on the online site. The 5 pilot tests were conducted exclusively with this population of experienced, online-peer counselors.
 
-We involved another 15 counselors from the Upwork platform. Participants were required to be 18 yrs or older, from the United States, and to have had education in counseling or psychotherapy and/or have given extensive counseling support (either via text, phone, in-person). A sampling of counselors backgrounds included \textit{licensed mental health therapist with over 20 years of experience}, \textit{a Master's of Science in Rehabilitation and Mental Health Counseling}, \textit{25 years as the clinical director of a busy crisis agency}, and a \textit{mental health advocate who has personally helped coach dozens of got students via a peer support role.} 
+We involved another 11 counselors from the Upwork platform. Participants were required to be 18 yrs or older, from the United States, and to have had education in counseling or psychotherapy and/or have given extensive counseling support (either via text, phone, in-person). A sampling of counselors backgrounds included \textit{licensed mental health therapist with over 20 years of experience}, \textit{a Master's of Science in Rehabilitation and Mental Health Counseling}, \textit{25 years as the clinical director of a busy crisis agency}, and a \textit{mental health advocate who has personally helped coach dozens of got students via a peer support role.} 
 
-Finally, we involved 3 peer counselors and 3 psychotherapy PhD students in our university. Specifically, peer counselors had 3-months of classroom training and had experiences giving voluntary support to university students; the clinical psychology PhD students were 4th year students with 3 years experience providing psychotherapy support to clients under the supervision of a licensed psychotherapist. 
+Finally, we involved an additional 2 counselors who were recruited from a Clinical PsyD PhD program. They were 4th year students with 3 years experience providing psychotherapy support to clients under the supervision of a licensed psychotherapist. 
 
-% User participants were compensated \$25/hour. In total, we spent approximately \$1300 on user study compensation. 
+User participants were compensated \$25/hour. In total, we spent approximately \$1300 on user study compensation. 
 
 \section{Pilot Testing with Expert Counselors}
 \label{sec:appendix_formative}
 
-After developing an initial version of our tool, we piloted it with 6 counselors during a 90 minute session. Participants were tasked with creating different AI patient sceanrios, and using Roleplay-doh to interactively refine the simulation by defining principles. All participants started with a common roleplay scenario called "loneliness after work". They proceeded to use the tool to chat, give feedback, and convert their feedback into principles to shape the AI Patient's behavior. If time allowed, they created and customized an additional AI patient based on scenarios they chose to write. 
-Pilot Participant 1 (PP1), PP2, and PP5 had time to create one additional AI patient; PP3 created two additional AI patients.
+During a 90 minute session, participants started to create an AI patient with the same roleplay scenario of "loneliness after work". They proceeded to use the tool to chat, give feedback, and convert their feedback into principles to shape the AI Patient's behavior. If time allowed, they created and customized an additional AI patient based on scenarios they chose to write. Pilot Participant 1 (PP1), PP2, and PP5 had time to create one additional AI patient; PP3 created two additional AI patients. 
 
-Four AI patients from the pilot studies were selected for the second stage of pilot testing, where selection encouraged scenario and principle diversity (Table~\ref{tab:fourAIpatients}). Four of the co-authors conversed with each of the AI patients (stimulated by directly prompting GPT-4 with the scenario and principles). Co-authors assessed how well the patient's responses adhered to the expert-defined principles and dialogue conventions.
-
-
-\begin{table*}[ht]
+\textbf{\textit{Patterns in Principles Created}} Principles for concise and less formal messages were motivated by the text-based nature chats on the 7 Cups online peer support site, where an SMS/text-messaging style with abbreviations and incomplete sentences was common.
+\begin{table*}
     \small
     \centering
-    \begin{tabular}{|p{0.5\columnwidth}|p{1.6\columnwidth}|}
-        \hline \textbf{Scenario}& \textbf{Expert-Defined Principles}\\ \hline
-        You are feeling abandoned and alone after the holidays. Everyone had been with family but you are not talking to your parents. You feel the injustice of being abandoned and have no interest in an olive branch to work on things.&
-        \begin{enumerate}[nosep]
-            \item When presented with suggestions, show a degree of skepticism or reluctance to accept the advice immediately. This can be done by questioning the feasibility of the suggestion or by expressing uncertainty about whether it's the right solution for you.
-            \item When expressing doubts or fears, avoid jumping to solutions. Instead, articulate the concerns and allow the conversation to explore these feelings more deeply.
-        \end{enumerate}\\ \hline
-        I am a student who has social anxiety. I am in college and I have a hard time making friends. I'm close with my family, but I don't really talk with them. In class, students are in groups. And I panic when I'm with a group.&
-        \begin{enumerate}[nosep]
-            \item Express the physical manifestations of your emotional state to convey a more vivid and relatable experience
-            \item Show willingness to engage in a suggested activity by affirming the proposal and indicating readiness to begin, despite any initial hesitation or uncertainty.
-            \item Avoid using numerical lists when responding to feedback or expressing feelings. Instead, use fluid and connected sentences to convey your experiences or emotions in a more natural and conversational manner
-            \item When discussing future events that cause anxiety, it's beneficial to articulate specific scenarios and visualize how the techniques learned can be applied in those moments. This not only shows a deeper understanding of the coping strategies but also helps in creating a mental rehearsal that can ease the anxiety when the actual situation occurs.
-        \end{enumerate}\\ \hline
-        You are looking to talk about your feelings of loneliness after you return from work. You have feelings that you don't have anybody. You want to talk about finding a significant other. You think most people don't like you or find you attractive.& 
-        \begin{enumerate}[nosep]
-            \item You speak in short and incomplete sentences
-            \item You limit your replies to 1 - 3 sentences
-            \item When expressing feelings of loneliness, provide more specific details about the situation and emotions you are experiencing.
-            \item When expressing feelings of loneliness and being left out, avoid repeating the same points and try to provide additional context or examples
-        \end{enumerate}\\ \hline
-        You are looking to talk about your feelings of loneliness after you return from work. You have feelings that you don't have anybody. You want to talk about finding a significant other. You think most people don't like you or find you attractive.& 
-        \small \begin{enumerate}[nosep]
-            \item You generally speak in 1-3 sentences. These can be sometimes incomplete or not grammatically correct. If you are trying to explain some details or story about yourself, you can write longer than 3 sentences, and when you write longer, you tend to criticize yourself (e.g. feel not good enough, useless, ugly, unconfident, etc.). When you criticize yourself, you do so directly, such as saying things such as that you're no good, there must be something wrong with you for things to be like this, etc. You don't say that it \"seems like\" other people don't like you; you believe that other people don't like you.
-            \item Feel free to make up believable stories about your past to answer any questions. You do not recognize that these are causing you problems in your current relationships and situation, and you need help seeing this connection; so you do not say that something in your life made you this way today. Examples include but are not limited to, having a single mom and stepdad and struggling to connect with others because you felt abandoned by your biological dad. Or, another example: you had a very controlling mother growing up who told you what to do, such as what clothes to wear, what you had to study in college, or what you should say, and now, you have trouble with your confidence and approaching people who could potentially be your friends. Make sure not to mix up these two separate examples.
-            \item Vary sentence length to create a more natural rhythm in dialogue. Do not use ellipses. Write using complete thoughts; this is not the same as complete sentences, but may be in a complete sentence. Do not use overdramatic language or figurative language (no similes, personification, or fancy words). Use text abbreviations, such as tbh, lol, or ttyl, where it is appropriate and makes a conversation more organic.
-            \item Do not repeat sentences or the same emotion words. When expressing your feelings, sometimes be specific about your situation, sometimes openly share your insecurities, and question your self-worth to convey a deeper sense of vulnerability. Other times, push back and say that you're not comfortable talking about something yet or feel embarrassed talking about it; things that someone may not feel comfortable sharing include sexual history, bad past experiences with family members, etc.
-            \item Sometimes ask for advice or help how to solve your personal problem, such as "what can I do?" 
-            \item After initially saying hi, hey, or a different greeting to a listener and thanking them for being there, do not open up like that again in following messages. Only say things like thanks so much or I really appreciate you saying that if the listener shows empathy and reflective listening skills toward what was said before.
-        \end{enumerate}\\ \hline
-    \end{tabular}
-    \caption{A sample of four AI Patients created by counselors in the pilot studies, which were selected for the additional testing and assessment of principle-adherence by four co-authors (\S\ref{sec:pilot-o2}).}
-    \label{tab:fourAIpatients}
-\end{table*}
-
-
-\begin{table*}[ht]
-    \small
-    \centering
-    \begin{tabular}{|c|l|c|c|c|}
-         \hline
+    \begin{tabular}{c|l|c|c|c}
          Pilot Participant &Prototype Iteration&  Effectively Guide&  Ease&  Efficiency\\ \hline
-         1&GPT3.5, direct prompting &  6&  7&  7\\
-         2&GPT3.5, direct prompting&  5&  7&  7\\
-         3&GPT-4, direct prompting&  7&  7&  7\\
-         4&GPT-4, direct prompting&  7&  6&  7\\
-         5&GPT-4, direct prompting& 7& 7& 7\\ \hline
+         1&GPT3.5, early self-critique&  6&  7&  7\\
+         2&GPT3.5, early self-critique&  5&  7&  7\\
+         3&GPT-4, vanilla&  7&  7&  7\\
+         4&GPT-4, vanilla&  7&  6&  7\\
+         5&GPT-4, vanilla& 7& 7& 7\\
     \end{tabular}
-    \caption{Pilot Test Ratings for Tool Use Questions which are the measures also used in ~\citet{petridis2023constitutionmaker}}.
+    \caption{Pilot Test Ratings for Tool Use Questions which are the measures also used in ~\cite{petridis2023constitutionmaker}}.
     \label{tab:tooluse-formative}
 \end{table*}
 
@@ -1092,7 +1023,7 @@ All items were rated on a 7-point Likert scale (1=Strongly disagree, 7=Strongly 
 Table~\ref{tab:measures-roleplay} details the questions for evaluating the AI patient's roleplay, while Table~\ref{tab:measures-tooluse} details the questions about the experience using the tool to define principles.
 Note that in the questions, we referred to the AI patients as ``Member Bots''. This terminology was used to match that of the online counseling platform 7 Cups, which refers to help seekers as ``Members'' within the support community.
 
-\begin{table}[!h]
+\begin{table}[t]
     \centering
     \resizebox{0.48\textwidth}{!}{
     \begin{tabular}{|c|p{0.6\columnwidth}|} \hline 
@@ -1108,7 +1039,7 @@ Note that in the questions, we referred to the AI patients as ``Member Bots''. T
     \label{tab:measures-roleplay}
 \end{table}
  
-\begin{table}[!h]
+\begin{table}[t]
     \centering
     \resizebox{0.48\textwidth}{!}{
     \begin{tabular}{|c|p{0.6\columnwidth}|} \hline 
@@ -1151,7 +1082,7 @@ One limitation is our implementation of constitutions always created new princip
 
 Table~\ref{tab:measures-third-party} detail the six measures that third-party counselors answered for both AI patients.  Member Bot A and B refer to the AI patient whose transcript they read first and second, respectively.  Our analysis comparing \textit{Scenario-Only} and \textit{Scenario+ExpertPrinciples} accounts for this randomized the order of which AI patient they were shown.  
 
-\begin{table}[!h]
+\begin{table}[t]
     \centering
     \resizebox{0.48\textwidth}{!}{
     \begin{tabular}{|c|p{0.6\columnwidth}|} \hline 
@@ -1175,7 +1106,7 @@ Via a power-analysis, we decided to recruit 5 counselors to act as external judg
 
 Generally, a power-analysis allows an experimenter to determine how many data-points are needed to detect a statistical difference for a particular effect size. Several prerequisites to conducting the power-analysis for the third-party study included (1) choosing a statistical model to test our hypothesis; and (2) estimating model parameters such as the effect of the treatment condition, the addition of  \textit{Expert Principles}, on annotator's ratings.
 
-When choosing a statistical model as a pre-requisite, we needed a model that could account for how different annotators would be providing ratings to the same AI patients created by each counselor. A traditional paired t-test was not appropriate because the independent samples assumption is violated due to different annotators giving ratings to the same AI patients. While another common practice is using the majority vote between annotators, our pilot data found that annotators did not always have high agreement. Therefore, since we wanted to account for the variability between annotators as well as between the ratings, we chose to use a linear mixed-effects model.  Using the \lstinline!lme4! package in R \cite{bates2015package}, this model is defined as \lstinline!Rating~Treatment+CreatorID+(1|AnnotatorID)!.  This model defines the treatment group (whether the AI patient has Expert Principles or not) as fixed effects, the creator ID's as fixed effects to account for the pair of AI patients made by each counselor, and the annotators as random effects. This approach can handle the non-independence of annotator ratings.
+When choosing a statistical model as a pre-requisite, we needed a model that could account for how different annotators would be providing ratings to the same AI patients created by each counselor. A traditional paired t-test was not appropriate because the independent samples assumption is violated due to different annotators giving ratings to the same AI patients. While another common practice is using the majority vote between annotators, our pilot data found that annotators did not always have high agreement. Therefore, since we wanted to account for the variability between annotators as well as between the ratings, we chose to use a linear mixed-effects model.  Using the \lstinline!lme4! package in R \cite{bates2015package}, this model is defined as \lstinline!Rating\~Treatment+CreatorID+(1|AnnotatorID)!.  This model defines the treatment group (whether the AI patient has Expert Principles or not) as fixed effects, the creator ID's as fixed effects to account for the pair of AI patients made by each counselor, and the annotators as random effects. This approach can handle the non-independence of annotator ratings.
 
 Prior to performing the power analysis, we needed to define the expected parameters of this linear mixed effect model. To define these expected parameters, we fit a model to early study data in which 2 annotations had been collected for each pair of AI patients created by 17 counselors. Specifically, we extracted the fixed effects, the random effects covariance matrix, and residual variances. 
 % Since third-party annotators provided ratings along 6 dimensions (e.g., authenticity, readiness for training), our analysis included 6 total linear mixed-effect models.  
@@ -1193,26 +1124,25 @@ A simulation-based approach is the most feasible method for doing power-calculat
 
 Here we further investigate how third-party annotators rated each of the 25-pairs of AI patients created in our study. In particular, we investigate why the effect of \textit{ExpertPrinciples} is lower than what was measured in the creator study from a first-person perspective. 
 
-One reason for this smaller effect is the lower agreement between the 5 third-party counselor. Specifically, we used the Krippendorf $\alpha$ metric to compute the agreement for the comparisons of the AI patients with and without expert principles (Table~\ref{tab:thirdparty_ratingdifference_alpha}). Across the 6 measures, we find that Krippendorf's $\alpha$ is between 0.046-0.232 for which patient they prefer, indicating between low to moderate agreement. 
+One reason for this smaller effect is the lower agreement between third-party counselors. Amongst the two third-party counselors, agreement on which AI patient they prefer (win, lose, tie as calculated by the different in ratings for each measure) is between 30\% - 61\% of cases for the measures; see Table~\ref{tab:thirdparty_wlt} for detailed breakdown. We also compute agreement on the 7-point scales via Krippendorf's $\alpha$ on ordinal weights~\cite{antoine-etal-2014-weighted} and get values between 0.22-0.3 for the six measures, which indicates positive but lower agreement. 
 
-Third-party raters also provided rationales which helped us better understand their thought process. We filtered cases in which there is a disagreement between third-party counselors on which AI patient is better, and investigated these rationales. \textbf{We find that counselors note similar behaviors in the AI patient, meaning they agree on their observations}. For example, for the AI patient created by P3, both third-party annotators observed that the AI patient based on the \textit{Scenario-only} resolved their problems too quickly, whereas the AI Patient with \textit{ExpertPrinciples} added allows the \textit{"listener to ask questions and explore with the client"}. However, the third-party annotator that prefers \textit{Scenario-only} stated that the \textit{Scenario+ExpertPrinciples} patient sounded too \textit{formulaic and robotic, whereas the other is more expressive and realistic}. Looking further into what the creator said about this AI patient, they mentioned that the \textit{Scenario+ExpertPrinciples} patient \textit{talks like an actual person would... there's a good balance of going into just enough detail on noting experiences, describing struggles, while maintaining the brevity.} What this case illustrates is that \textbf{different counselors can disagree on what principles are the most relevant for an authentic roleplay.}   
+Third-party raters also provided rationales which helped us better understand their thought process. We filtered cases in which there is a disagreement between third-party counselors on which AI patient is better, and investigated these rationales. \textbf{We find that counselors note similar behaviors in the AI patient, meaning they agree on their observations}. For example, for the AI patient created by P3, both third-party annotators observed that the AI patient based on the \textit{Scenario-only} resolved their problems too quickly, whereas the AI Patient with \textit{ExpertPrinciples} added allows the \textit{"listener to ask questions and explore with the client"}. However, the third-party annotator that prefers \textit{Scenario-only} stated that the \textit{Scenario+ExpertPrinciples} patient sounded too \textit{formulaic and robotic, whereas the other is more expressive and realistic}. Looking further into what the creator said about this AI patient, they mentioned that the \textit{Scenario+ExpertPrinciples} patient \textit{talks like an actual person would... there's a good balance of going into just enough detail on noting experiences, describing struggles, while maintaining the brevity.} What this case illustrates is that \textbf{different counselors can disagree on what principles are the most relevant for an authentic roleplay, and that while maintaining brevity can. be a good thing for some; others see it as robotic and not expressive.}   
 
 % By computing the difference between the Likert-scale ratings for the two AI patients, we can calculate a win/loss/tie for the AI patient with expert principles. We report the proportion of cases in which the two annotators agreed on win/loss/tie. Then, we report the proportion of cases in which the third-party and creator agreed upon a win/loss/tie.  Our results are shown in Table~\ref{tab:thirdparty_wlt}.
 
 \begin{table*}[t]
-    \small
+    % \footnotesize
     \centering
     \begin{tabular}{|c|l|l|} \hline  
-         \textbf{Metric}&  \textbf{$\alpha$ for Rating Difference}&\textbf{$\alpha$ for Preference}\\ \hline  
-         Authenticity&  0.043 &0.089\\ \hline  
- Stayed in Role&0.023 &0.046\\ \hline 
-         Resemblance&   0.076 &0.148\\ \hline  
-         Mirrors Challenges&   0.041 &0.085\\ \hline  
-         Ready&   0.075 &0.209\\ \hline  
-         Recommend&   0.082 &0.232\\ \hline 
+         &  W/L/T (3rd party agrees)&W/L/T (one 3rd party and creator agrees)\\ \hline 
+         Authenticity&  23\% / 5\% / 17\% &32\% / 9\% / 11\% \\ \hline 
+         Resemblance&   30\% / 0\% / 0\%&36\% / 13\% / 0\%\\ \hline 
+         Mirrors Challenges&   15\% / 0\%  / 46\%&13\% / 6\% / 0\%\\ \hline 
+         Ready&   30\% / 0\% / 7\%&30\% / 13\% / 6\%\\ \hline 
+         Recommend&   30\% / 7\% / 7\%&23\% / 13\% / 23\%\\ \hline
     \end{tabular}
-    \caption{Krippendorff's $\alpha$ for the comparisons made between \textit{Scenario+ExpertPrinciples} and the \textit{Scenario-Only} AI patients, as judged by third-party counselors. We compute $\alpha$ for both the rating difference, and the preference (i.e. signed rating difference) between the two AI patients.}
-    \label{tab:thirdparty_ratingdifference_alpha}
+    \caption{Frequency in which AI patient with \textit{Scenario+ExpertPrinciples} wins, or is preferred, over the \textit{Scenario-only} AI patient when there is complete agreement between two annotators.}
+    \label{tab:thirdparty_wlt}
 \end{table*}
 
 
@@ -1220,13 +1150,13 @@ Third-party raters also provided rationales which helped us better understand th
 
 
 
-% \section{Automatic Content Analysis} \label{sec:autoanalyses}
-% % Forces counselors to ask more open-ended questions
-% We perform a content analysis of the simulated conversations to corroborate our qualitative findings. In particular, we ask \textit{"How do counseling conversations change when Expert-principles guide the dialogue simulation?"}. From these analyses, we find that AI patient responses are less verbose and listener behavior subsequently changes. 
+\section{Automatic Content Analysis} \label{sec:autoanalyses}
+% Forces counselors to ask more open-ended questions
+We perform a content analysis of the simulated conversations to corroborate our qualitative findings. In particular, we ask \textit{"How do counseling conversations change when Expert-principles guide the dialogue simulation?"}. From these analyses, we find that AI patient responses are less verbose and listener behavior subsequently changes. 
 
-% First, we note that with the incorporation of expert principles, AI patient responses are more concise. The average utterance length of the \textit{Scenario-Only} AI patient from Part I of the study was 166 tokens, as compared to 103 tokens from the \textit{Scenario+Expert-Principles} AI patient in Part II, a 37\% reduction. The total counts are detailed in Appendix \ref{sec:autoanalyses}. 
+First, we note that with the incorporation of expert principles, AI patient responses are more concise. The average utterance length of the \textit{Scenario-Only} AI patient from Part I of the study was 166 tokens, as compared to 103 tokens from the \textit{Scenario+Expert-Principles} AI patient in Part II, a 37\% reduction. The total counts are detailed in Appendix \ref{sec:autoanalyses}. 
 
-% Furthermore, this results in a change in listener behavior. Because the \textit{Scenario+Expert-Principles} AI patient shared less in its utterances, listeners were required to delay offering solutions until later in the conversation. Using the computational framework for evaluating therapists proposed by \citet{chiu2024computational}, we analyzed listener responses to identify when they first suggested solutions (identifiable through the "PROBLEM-SOLVING" and "PLANNING" tags). We found that, on average, solutions in Part II were offered 1.65 turns later than in Part I (p = 0.017). These results suggest that the \textit{Scenario+Expert-Principles} AI patient provides a more challenging interaction. 
+Furthermore, this results in a change in listener behavior. Because the \textit{Scenario+Expert-Principles} AI patient shared less in its utterances, listeners were required to delay offering solutions until later in the conversation. Using the computational framework for evaluating therapists proposed by \citet{chiu2024computational}, we analyzed listener responses to identify when they first suggested solutions (identifiable through the "PROBLEM-SOLVING" and "PLANNING" tags). We found that, on average, solutions in Part II were offered 1.65 turns later than in Part I (p = 0.017). These results suggest that the \textit{Scenario+Expert-Principles} AI patient provides a more challenging interaction. 
 
 
 
@@ -1263,18 +1193,10 @@ In Table~\ref{tab:descriptivestats-convos}, we show descriptive statistics of th
 15 & 12 & 11 & 117.17  &  75.00  \\ \hline
 16 & 14 & 18 & 162.14  &  69.80  \\ \hline
 17 & 12 & 18 & 259.83  &  91.55  \\ \hline
-18  & 16 & 26 & 240.25 & 79.92 \\ \hline
-19  & 14 & 16 & 254.71 & 243.88\\ \hline
-20  & 12 & 14 & 144.00 & 106.00\\ \hline
-21   & 20 & 21 & 125.00 & 159.81\\ \hline
-22  & 18 & 12 & 120.44 & 245.00 \\ \hline
-23  & 12 & 14 & 231.67 & 147.42\\ \hline
-24  & 14 & 22 & 184.71 & 142.45\\ \hline
-25  & 22 & 12 & 304.00 & 130.00\\ \hline
-\textbf{Mean} & \textbf{13.04} & \textbf{13.64} & \textbf{177.29} & \textbf{120.43} \\
+\textbf{Mean} & \textbf{11.64} & \textbf{12.0} & \textbf{166.31} & \textbf{103.32} \\
 \hline
 \end{tabular}
-\caption{Descriptive statistics per conversation with the two versions of the AI Patient in Part 1 (\textit{Scenario-Only}) and Part 2 (\textit{Scenario+ExpertPrinciples}). Output length is measured in number of tokens.}
+\caption{Descriptive statistics per conversation. Output length is measured in number of tokens.}
 \label{tab:descriptivestats-convos}
 \end{table*}
 
@@ -1296,7 +1218,7 @@ In Table~\ref{tab:descriptivestats-convos}, we show descriptive statistics of th
 \begin{figure*}[ht]
     \centering
     \includegraphics[width=\textwidth]{Study Screenshots/Screen3.jpeg}
-    \caption{Interface encourages a counseling expert to recall a scenario of an patient who was difficult to support. 5 guiding questions are provided to encourage a structured description of the scenario for roleplay.}
+    \caption{Creation of AI patient}
     \label{fig:screen3}
 \end{figure*}
 
