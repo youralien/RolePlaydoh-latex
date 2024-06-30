@@ -75,16 +75,16 @@
 %
 % and set <dim> to something 5cm or larger.
 
-\usepackage{ifthen}
- \newboolean{showcomments}
- \setboolean{showcomments}{true} % Set to false to hide all comments
-\newcommand{\ryan}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{orange}{[#1 —ryan]}}{}}
-\newcommand{\ananjan}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{green}{[#1 —ananjan]}}{}}
-\newcommand{\will}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{pink}{[#1 —will]}}{}}
-\newcommand{\cheng}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{purple}{[#1 —cheng]}}{}}
-\newcommand{\raj}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{purple}{[#1 —raj]}}{}}
-\newcommand{\emma}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{red}{[#1 —emma]}}{}}
-\newcommand{\diyi}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{blue}{[#1 —diyi]}}{}}
+% \usepackage{ifthen}
+%  \newboolean{showcomments}
+%  \setboolean{showcomments}{true} % Set to false to hide all comments
+% \newcommand{\ryan}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{orange}{[#1 —ryan]}}{}}
+% \newcommand{\ananjan}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{green}{[#1 —ananjan]}}{}}
+% \newcommand{\will}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{pink}{[#1 —will]}}{}}
+% \newcommand{\cheng}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{purple}{[#1 —cheng]}}{}}
+% \newcommand{\raj}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{purple}{[#1 —raj]}}{}}
+% \newcommand{\emma}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{red}{[#1 —emma]}}{}}
+% \newcommand{\diyi}[1]{\ifthenelse{\boolean{showcomments}}{\textcolor{blue}{[#1 —diyi]}}{}}
 
 % \title{Roleplay-doh: Empowering Counselors To Design LLM-based \\AI patients for Realistic Practice}
 
@@ -128,19 +128,6 @@ We apply this pipeline to enable senior mental health supporters to create custo
 
 \section{Introduction}
 % \raj{The acronym LLM is defined at multiple stages. I would recommend to define it at the first occurance and use it throughout.} % Ryan: Fixed 06/07
-\if 0
-% BAD ATTEMPTS AT REWORKING THE 1st paragraph, trying to submit to reviewers "over specific" comments at the harm of not telling the counseling story accurately
-% - NLP technologies are meant to make a difference in mental health, one area is in the training of counselors
-% - Traditional non tech techniques.
-% - But with technology..
-
-% Realistic practice and personalized feedback are key integredients for novices to effectively learning clinical skills
-% Traditionally, counselors can practice their counseling skills on a partner who roleplays the patient. However, partners may not be available when a novice counselor wants to practice.
-% Others have proposed to design authentic yet low-risk mock practices to help novice counselors practice and develop their conversational skills~\cite{}
-% cite: Learning to Become a Volunteer Counselor: Lessons from a Peer-to-Peer Mental Health Community
-% Training software that simulates a dialogue with a digital partners can also offer interactive practice opportunities. However, most digital partners operate using tailored, dialogue trees~\cite{othlinghaus2020seriousroleplaying}, which limits the diversity of dialogue scenarios that can be practiced. 
-% With the arrival of LLMs that can generate more varied and coherent dialogues than hard-coded or retrieval-based methods, recent work has recognized the transformative potential for LLMs to power AI partners that can be used for practicing many types of social skills~\citep{yang2024social}. We focus on counselor training, where novices could roleplay with an AI patient seeking mental health support as preparation for learning to give effective support to real patients.  
-\fi
 
 % Ananjan: attempt at introduction sketch
 % LLM simulations are necessary (social skill training, understanding human-computer interaction) but hard (not realistic). Finetuning/DPO to elicit desired behavior is hard because of lack of data. Experts-in-the-loop is the obvious solution, but experts often are not able to prompt LLMs to elicit desired behavior. This motives a solution that can use subjective expert feedback directly to improve quality of simulations (no mention of mental health in this para)
@@ -165,16 +152,6 @@ To date, no system supports counseling experts, who are familiar with real-patie
 
 % One domain that can especially benefit from good simulations is mental health. Shorten and include first para regarding why roleplay is important for mental health training, and how existing methods do not use LLMs.
 
-\if 0
-% RYAN cutting this paragraph and jumpting to the research solution first
-One domain that can substantially benefit from such a system is mental health counseling. For counselors learning clinical skills, simulated roleplay with a human partner is an effective method for practicing and receiving feedback in a hands-on setting~\cite{oh2015effects}. % \raj{maybe remove the word safe here; someone might question if practicing with AI is safe?}
-However, roleplay with peers can be inauthentic without the proper training~\cite{ay2023can}; and trained Standardized Patients are costly to hire and limited in access ~\cite{kuhne2020standardized}. 
-% \raj{Alternative framing to the following statement: Technology-based simulations of digital patients can offer inexpensive and accessible alternatives to human roleplay for practice;}
-Technology-based simulations of digital patients can offer inexpensive and accessible alternatives to human roleplay for practice; however, most digital patients operate using tailored, dialogue trees~\cite{shorey2019virtual, othlinghaus2020seriousroleplaying}, which limit the diversity of practice scenarios.
-More varied and expressive LLM simulations of roleplay partners may overcome these limitations.
-% Last short para: mental health has all of the problems mentioned in the first para (data concerns, experts that are not literate in using LLMs). Initial exploration points out key limitations in existing simulation methods when used in the domain of mental health: colloquial language etc. 
-This domain is also representative of many of the challenges associated with achieving realistic LLM simulations. Counseling data is difficult to obtain due to privacy concerns, and counselors are not expected to be able to align LLM outputs via prompting~\cite{whyjohnnycantprompt}. Initial exploration finds that naive LLM simulations fail to resemble typical behaviors of real-patients such as using colloquial language and showing resistance to help, when evaluated by mental health experts. 
-\fi
 
 % For counselors learning clinical skills, simulated roleplay with a human partner is an effective method for practicing and receiving feedback in a hands-on setting~\cite{oh2015effects}. % \raj{maybe remove the word safe here; someone might question if practicing with AI is safe?}
 % However, roleplay with peers can be inauthentic without the proper training~\cite{ay2023can}; while Standardized Patients are costly to hire and limited by access to specially trained actors~\cite{kuhne2020standardized}. 
@@ -240,19 +217,6 @@ To resolve these issues, we introduce a novel \textbf{principle-adherence pipeli
 % \ryan{Not exactly accurate, since the first stage also adds principle questions regarding conventions like dialogue coherence and consistency.}
 %following the expert-defined principles or conventions like dialogue coherence and consistency.
 
-\if 0
-% OLD VERSION WRITTEN BY ANANJAN
-Via formative studies with expert counselors,
-% Via pilot testing with expert counselors, 
-% we uncover that directly prompting GPT-4 to simulate the AI patient's scenario and expert-defined principles results in poor
-we uncover that this design results in poor responses in 20\% of cases; an error case analysis showed that the simulation had difficulty adhering to multipart principles and misapplying those principles that are only applicable in specific contexts e.g., \textit{only when the therapist provides encouraging words}.
-% , primarily due to errors in adhering to multipart principles and misapplying those that are only applicable in specific contexts e.g., \textit{only when the therapist provides encouraging words}.
-% due to errors in adhering to \textit{all} principles, \textit{only in applicable situations}, and \textit{without violating persona or dialogue consistency}.
-To resolve these issues, we introduce a novel 
-% \textbf{principle-adherence prompting chain
-\textbf{principle-adherence pipeline
-} in the final tool design. The first step in the pipeline decomposes multipart and contextual principles into a set of yes/no questions that are easier to judge, and the second step assesses the applicability of each simplified principle to the current scenario before self-refining~\cite{madaan2024self} the AI patient response as required.
-\fi
 
 % within the dialogue-simulation pipeline which \textit{critiques} a candidate response for principle-adherence and \textit{revises} the response according to the critique. While similar to recent methods for self-refining LLM outputs~\cite{madaan2024self}, our principle-adherence pipeline is specifically designed to (1) decompose multipart and contextual principles into a set of yes/no questions that are easier to judge and (2) assess the applicability of principles to the dialogue context (Fig~\ref{fig:principle-adherence-pipeline}). 
 
@@ -336,12 +300,6 @@ One feature that we change is generating a single dialogue response, rather than
 % Although we did not explore fine-tuning in this work, fine-tuning open-source models using the final AI patient constitution could be a promising line of future work to achieve cheaper inference costs for a production system.
 Our prompt (Appendix~\ref{sec:llmprompts-vanilla}) instructs GPT-4 to simulate a patient's next response in a dialogue as opposed to asking the LLM to roleplay as the patient using a system prompt~\cite{zhou2024real}, as early testing revealed that this can mitigate role consistency issues in which the LLM responds as an AI assistant rather than as a patient. 
 
-\if 0
-% \paragraph{D1: \textit{Support an active feedback loop for shaping authentic roleplay in AI patients.}} \raj{would be better to say simulate instead of shape; in the following statement make users and counselors consistent}
-% Counselors start by writing a description of a patient scenario, or users can equivalently refer to or select from a list of example scenarios. Then, they can begin chatting with an LLM-powered AI patient whose responses are conditioned on the patient's description and conversation history. To support rapid prototyping of the AI patient's behaviors, the tool adopts a recent paradigm for user-driven chatbot design~\cite{petridis2023constitutionmaker}, in which users can provide qualitative feedback on the AI patient chatbot's response which gets converted by an LLM call into a constitution made of {\em principles} that govern desired chatbot behavior (Fig~\ref{fig:rpdteaser}). \raj{Cna we say "...feedback on the AI patient's response to build a constitution". Why specify LLM call here?}
-
-% \paragraph{D2: \textit{Consistent and Customizable Simulation of Patient Scenario.}} \raj{The following statement is not very clear:} To simulate an AI patient's response, we prompt the LLM as a dialogue simulator as opposed to a system prompt asking the LLM to roleplay as the patient~\cite{zhou2024real}, as we found this can mitigate issues where the LLM produces responses as a chat assistant, rather than as a patient. To support rapid customization of the simulation, we prompt the LLM to follow the most recent set of constitution principles as in~\citet{petridis2023constitutionmaker}, rather than fine-tuning the LLM weights as in~\citet{bai2022constitutional}'s constitutional AI framework. We provide the prompt we used in Appendix~\ref{sec:llmprompts-vanilla}.
-\fi
 
 \subsection{Pilot Testing} \label{sec:formative-tests}
 
@@ -771,20 +729,6 @@ Four AI patients from the pilot studies were selected for the second stage of pi
     \label{tab:tooluse-formative}
 \end{table*}
 
-\if 0
-\begin{itemize}
-\item participatory design approach to work with domain 
-users to discover what’s needed for a good human-centered system.
-\item Prototyping w/ GPT3.5 to GPT-4 difference
-\item Counselors from 7 Cups, an online peer-support platform, who have supported 30+ members seeking help online.
-\item Our testing setup asked them to create two AI patients. After P1 wrote a  \textit{Loneliness after work} scenario, which is a common type of topic, everyone was tasked with creating this patient case, and make it as authentic to people seeking seeking help about similar issues.
-\item Commonalities in the nature of 7 cups conversations. Principles for concise and less formal messages were motivated by the text-based nature chats on the online peer support site, where members often messsage from their phone. 
-\item Diversity in patient scenarios + principles, which validated need for a more customized approach. 
-\item Promisingly, they generally liked it!  Besides early cases where role consistency or principle adherence was reliable, they felt the tool was easy to use, allowed them to create AI patients they were satisfied with and might recommend for others to practice.
-\item Observing issues with GPT3.5 self-critique making poor implicit errors, and with GPT-4-powered dialogue simulation making weird errors? Motivates further stuff
-\item Appendix of the AI patients created, or at least the ones used in the Analysis of Base Principle Following.
-\end{itemize}
-\fi
 
 \section{Evaluating principle-adherence of GPT-4 direct prompting} \label{appendix-sec:principle-adherence-testing}
 
@@ -1137,11 +1081,6 @@ These obstacles in tool experience could inspire future directions for improveme
 % Second, several users encountered difficulties using principle-elicitation features to define rules, which often led to redundant principles and inadequate generalization across specific dialogue contexts. As P19 expressed, "I was able to give feedback to the bot, but it didn't always follow it... the feedback was a little too similar to things I already gave," indicating a cycle of non-progressive feedback in which responses could not be steered towards the creator's intentions. This issue was compounded by generalization challenges, as illustrated by P23's experience: "most of the rules I can think of don't apply generally." As previous work has advocated for the improvement of human-LLM collaborations through more fine-grained data of co-writing interactions, we release a dataset of the 25 creator's testing and customizing AI patients via interactive principle elicitation for future work to build upon\footnote{Dataset linked at https://github.com/SALT-NLP/roleplay-doh}. 
 
 
-\if 0
-Nonetheless, principle-elicitation did work perfectly in all cases. X\% of principles required manually editing. Even if their feedback was not transformed perfectly by the tool, several counselors still liked how it assisted with formulating principles: "having AI there to help write the principles made me think more about what I was writing to make sure it captured everything I wanted it to, and when it didn't, I could just overwrite what it put." (P5) The few that found the tool mentally demanding said "it does take some time to be specific" (P7), "in terms of having to think of and write rules was a challenge." (P9)
-One limitation is our implementation of constitutions always created new principles based on feedback, even when the feedback referred to corrections in a converted principle. 
-"I was able to give feedback to the bot, but it didn't always follow it, and sometimes the way that the AI would generate feedback based on what thoughts I gave would make the feedback a little too similar to things I already gave, so that I was giving the AI the same feedback every time since it wasn't changing how it responded. I didn't have to think too hard to come up with rules, but they ended up being the same things of being less verbose and being less sure of what answers to give." (P19) Some participants found it hard to generalize feedback applied to a specific dialogue context, even though our principle-elictation prompts were designed to help with this. "I think the rules/principles were hard to get right because most of the rules i can think of don't apply generally. For exmaple, there are general rules for what counselees usually say when certain questions are asked, but coming up with universal rules is hard." (P23). Moreover, "The rules were more about overall guiding principles for the conversation, while my feedback was more generally directed at a specific part of the response. I felt like the bot was sticking to the prompt well, so I didnt necessarily feel the need to give overarching guidance. It was also hard to think about how to frame the feedback in an overarching way, rather than as direct feedback." (P24) 
-\fi
 
 % Learning curve for best strategies for choosing type of feedback and defining principles: "At first I wanted to just rewrite the response because giving an example felt easier than making a principle. But then when the bot caught on, it felt easier to rewrite and work with principles." (P13)
 
